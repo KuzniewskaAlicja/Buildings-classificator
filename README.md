@@ -19,10 +19,11 @@ Class names of considered buildings:
 The best result on this test dataset was obtained for SVM classifier. 
 Image width have been set to 700px and number of words in dictionary to 440.
 
-Final accuracy on the test dataset:
+Final accuracy and confusion matrix:
 
-|            | Accuracy [%] |
-|------------|--------------|
-| Test data  |    89.41     | 
-| Train data |     100      | 
-|            |              | 
+|              |  Accuracy [%]  |
+|:------------:|:--------------:|
+| Test data    |    89.41       | 
+| Train data   |     100        | 
+
+![Confusion Matrix](./chart/confusion_matrix.png)
