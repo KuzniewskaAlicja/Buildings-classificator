@@ -42,8 +42,8 @@ def grid_search(train_data, train_label, test_data, test_label, vocab_model):
     classifiers, clfs_params = tuning_parameters()
     descriptor = cv2.AKAZE_create()
 
-    train_data = apply_feature_transform(train_data, descriptor, vocab_model)
-    test_data = apply_feature_transform(test_data, descriptor, vocab_model)
+    train_data = dataset_operations.apply_feature_transform(train_data, descriptor, vocab_model)
+    test_data = dataset_operations.apply_feature_transform(test_data, descriptor, vocab_model)
 
     for idx, (name, clf) in enumerate(classifiers):
         grid_clf = GridSearchCV(estimator = clf, cv = 5, param_grid = clfs_params[idx], n_jobs = -1)
@@ -57,23 +57,6 @@ def grid_search(train_data, train_label, test_data, test_label, vocab_model):
 
         if accuracy_test > 0.85:
             dump(grid_clf, open(f'{clfs_path}/clf_{name.lower().replace(" ", "_")}_acc_{accuracy_test * 100 :.2f}.p', 'wb'))
-
-def apply_feature_transform(data: np.ndarray, descriptor, vocab_model) -> np.ndarray:
-    data_transformed = []
-    for image in data:
-        _, image_descriptor = descriptor.detectAndCompute(image, None)
-        bow_features_histogram = descriptor2histogram(image_descriptor, vocab_model)
-        data_transformed.append(bow_features_histogram)
-
-    return np.asarray(data_transformed)
-
-def descriptor2histogram(descriptor, vocab_model) -> np.ndarray:
-    features_words = vocab_model.predict(descriptor)
-    histogram = np.zeros(vocab_model.n_clusters, dtype = np.float32)
-    unique, counts = np.unique(features_words, return_counts = True)
-    histogram[unique] += counts
-    histogram /= histogram.sum()
-    return histogram
 
 def main():
     train_data, train_labels, _ = dataset_operations.load_dataset('./dataset')
