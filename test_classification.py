@@ -35,7 +35,9 @@ def main():
     plot_confusion_matrix(clf, test_data_transform, test_labels, 
                           display_labels=class_names, normalize='true',
                           cmap='Oranges')
-    plt.gca().set_title('Confusion matrix on the test data')
+    axis = plt.gca()
+    axis.set_title('Confusion matrix on the test data')
+    axis.xaxis.set_label_coords(0.55, -0.1)
     plt.show()
 
 if __name__ == "__main__":
