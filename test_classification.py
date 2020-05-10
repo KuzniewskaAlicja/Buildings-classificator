@@ -2,9 +2,10 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 from pickle import load
-from sklearn.metrics import (plot_confusion_matrix, accuracy_score)
+from sklearn.metrics import plot_confusion_matrix, accuracy_score
 
 import dataset_operations
+
 
 def main():
     model_dir = './model/vocabulary'
@@ -30,7 +31,7 @@ def main():
     predicted_train = clf.predict(train_data_transform)
     print(f'{10 * "-"} {str(clf.best_estimator_)[:3].lower()} accuracy {10 * "-"}\n'
           f'Test Data: {accuracy_score(predicted_test, test_labels) * 100:.2f} %\n'
-          f'Train Data: {accuracy_score(predicted_train, train_labels)* 100:.2f} %')
+          f'Train Data: {accuracy_score(predicted_train, train_labels) * 100:.2f} %')
     
     plot_confusion_matrix(clf, test_data_transform, test_labels, 
                           display_labels=class_names, normalize='true',
@@ -40,6 +41,6 @@ def main():
     axis.xaxis.set_label_coords(0.55, -0.1)
     plt.show()
 
+
 if __name__ == "__main__":
     main()
-
